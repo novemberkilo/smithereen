@@ -10,21 +10,22 @@ Feature: Algebraic Equation Parser
     Then I should see "<result>"
 
     Examples:
-      | input          | result |
-      | 24             |     24 |
-      | pi             | 3.141592653589793 |
-      | 24 +2          |     26 |
-      | 24 + 2 * 3     |     30 |
-      | 24+2* - 3-12   |      6 |
-      | 24+2*(-3-12)   |     -6 |
-      | 24+2*-(3-12)   |     42 |
-      | 24+2*-(3-12^2) |    306 |
-      | 24+3*4/2 - 5   |     25 |
-      | 6+sqrt(9)      |      9 |
-      | sin(0)         |      0 |
-      | cos(0)         |      1 |
-      | cos(pi)        |     -1 |
-      | cos( 3.141592653589793)      |     -1 |
+      | input                   |             result |
+      | 24                      |                 24 |
+      | 1.5                     |                1.5 |
+      | pi                      |  3.141592653589793 |
+      | pi - 3.141592653589793  |                  0 |
+      | 24 +2                   |                 26 |
+      | 24 + 2 * 3              |                 30 |
+      | 24+2* - 3-12            |                  6 |
+      | 24+2*(-3-12)            |                 -6 |
+      | 24+2*-(3-12)            |                 42 |
+      | 24+2*-(3-12^2)          |                306 |
+      | 24+3*4/2 - 5            |                 25 |
+      | 6+sqrt(9)               |                  9 |
+      | sin(0)                  |                  0 |
+      | cos(0)                  |                  1 |
+      | cos(pi)                 |                 -1 |
 
   Scenario: Leading whitespace
     When I ask the algebraic equation parser for the answer to "  2+2"
