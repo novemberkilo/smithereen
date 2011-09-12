@@ -26,6 +26,8 @@ Feature: Algebraic Equation Parser
       | sin(0)                  |                  0 |
       | cos(0)                  |                  1 |
       | cos(pi)                 |                 -1 |
+      | 2pi                     |  6.283185307179586 |
+      | cos(2pi)                |                  1 |
 
   Scenario: Leading whitespace
     When I ask the algebraic equation parser for the answer to "  2+2"
