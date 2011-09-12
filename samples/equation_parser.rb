@@ -69,6 +69,8 @@ module SmithereenSamples
 
       prefix { value }
 
+      infix { |left| left * value }
+
     end
 
     deftoken :+, 10 do
