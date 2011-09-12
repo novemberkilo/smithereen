@@ -16,7 +16,7 @@ Given /^I ask the calculator for the answer to "([^\"]*)"$/ do |input|
 end
 
 Then /^I should see "([^\"]*)"$/ do |expected_result|
-  @result.should == expected_result.to_i
+  @result.should == ( expected_result =~ /\./ ? expected_result.to_f : expected_result.to_i )
 end
 
 Then /^I should get the error "([^\"]*)"$/ do |expected_message|
