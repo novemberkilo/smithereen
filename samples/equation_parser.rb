@@ -32,8 +32,16 @@ module SmithereenSamples
     fns = {
       'sin' => Proc.new { |x| Math.sin(x) },
       'cos' => Proc.new { |x| Math.cos(x) },
-      'sqrt' => Proc.new { |x| Math.sqrt(x) }
+      'tan' => Proc.new { |x| Math.tan(x) },
+      'sqrt' => Proc.new { |x| Math.sqrt(x) },
+      'exp' => Proc.new { |x| Math.exp(x) }
     }
+
+    CONSTANTS = {
+      'pi' => Math::PI,
+      'e'  => Math::E
+    }
+
 
     deftoken :decimal, 1000 do
       def value
@@ -53,10 +61,14 @@ module SmithereenSamples
 
     deftoken :name, 1000 do
       def value
+        if CONSTANTS.keys.include? text
+          @value = CONSTANTS[ text ]
+        end
         @value ||= text
       end
 
       prefix { value }
+
     end
 
     deftoken :+, 10 do
@@ -85,8 +97,10 @@ module SmithereenSamples
         expression.tap{ advance_if_looking_at! :')' }
       end
       infix do |left|
+
         raise ::Smithereen::ParseError.new("Expected a function name", left) unless String === left
         arg = expression(lbp)
+
         advance_if_looking_at(:')') or raise ::Smithereen::ParseError.new("Missing closing parenthesis", nil)
         if fns.keys.include? left
           fns[left].call(arg)
