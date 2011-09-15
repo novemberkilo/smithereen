@@ -99,16 +99,27 @@ module SmithereenSamples
         expression.tap{ advance_if_looking_at! :')' }
       end
       infix do |left|
-
         raise ::Smithereen::ParseError.new("Expected a function name", left) unless String === left
-        arg = expression(lbp)
 
-        advance_if_looking_at(:')') or raise ::Smithereen::ParseError.new("Missing closing parenthesis", nil)
-        if fns.keys.include? left
-          fns[left].call(arg)
+
+        if looking_at? :name
+          args = delimited_sequence(:'(',:')') { expression(0) }
+          arg = if fns.keys.include? left
+                  fns[left].call(args[0])
+                else
+                  raise ::Smithereen::ParseError.new("Unrecognized function", left)
+                end
         else
-          raise ::Smithereen::ParseError.new("Unrecognized function", left)
+          arg = expression(lbp)
+          advance_if_looking_at(:')') or raise ::Smithereen::ParseError.new("Missing closing parenthesis", nil)
+          if fns.keys.include? left
+            fns[left].call(arg)
+          else
+            raise ::Smithereen::ParseError.new("Unrecognized function", left)
+          end
         end
+
+
       end
     end
 
