@@ -19,6 +19,10 @@ Then /^I should see "([^\"]*)"$/ do |expected_result|
   @result.should == ( expected_result =~ /\./ ? expected_result.to_f : expected_result.to_i )
 end
 
+Then /^I should see string "([^\"]*)"$/ do |expected_result|
+  @result.should == expected_result
+end
+
 Then /^I should get the error "([^\"]*)"$/ do |expected_message|
   @syntax_error.message.should match(Regexp.new("^#{Regexp.escape(expected_message)}: "))
 end
